@@ -14,8 +14,7 @@ def app(request):
     return fixture
 
 def test_add_contact(app):
-    app.open_home_page()
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.open_contact_page()
     app.create_new_contact(Contact(firstname="Ivan", midname="I.", lastname="Ivanov", nickname="Vanya",
                                         title="Tester", company="Big_company", street="Lenina Street",
@@ -25,11 +24,10 @@ def test_add_contact(app):
                                         notes="No comments"))
     app.open_home_page()
     time.sleep(3)
-    app.logout()
+    app.session.logout()
 
 def test_add_empty_contact(app):
-    app.open_home_page()
-    app.login(username="admin", password="secret")
+    app.session.login(username="admin", password="secret")
     app.open_contact_page()
     app.create_new_contact(Contact(firstname="", midname="", lastname="", nickname="",
                                         title="", company="", street="",
@@ -39,5 +37,5 @@ def test_add_empty_contact(app):
                                         notes=""))
     app.open_home_page()
     time.sleep(3)
-    app.logout()
+    app.session.logout()
 
