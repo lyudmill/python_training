@@ -4,7 +4,7 @@ from model.contact import Contact
 
 
 def test_add_contact(app):
-    app.session.login(username="admin", password="secret")
+    app.open_home_page()
     app.contact.open_contact_page()
     app.contact.create(Contact(firstname="Ivan", midname="I.", lastname="Ivanov", nickname="Vanya",
                        title="Tester", company="Big_company", street="Lenina Street",
@@ -13,11 +13,9 @@ def test_add_contact(app):
                        byear="1990", homepage="www.ivanivanov.com", address2="addressss",
                        notes="No comments"))
     app.open_home_page()
-    time.sleep(3)
-    app.session.logout()
 
 def test_add_empty_contact(app):
-    app.session.login(username="admin", password="secret")
+    app.open_home_page()
     app.contact.open_contact_page()
     app.contact.create(Contact(firstname="", midname="", lastname="", nickname="",
                        title="", company="", street="",
@@ -26,6 +24,5 @@ def test_add_empty_contact(app):
                        byear="", homepage="", address2="",
                        notes=""))
     app.open_home_page()
-    time.sleep(3)
-    app.session.logout()
+
 
