@@ -14,6 +14,7 @@ def test_add_contact(app):
                        notes="No comments"))
     app.open_home_page()
 
+
 def test_add_empty_contact(app):
     app.open_home_page()
     app.contact.open_contact_page()
