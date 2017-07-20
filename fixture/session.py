@@ -18,8 +18,8 @@ class SessionHelper:
     def logout(self):
         wd = self.app.wd
         wd.find_element_by_link_text("Logout").click()
-        wd.find_element_by_name("pass").click()
-        wd.find_element_by_name("pass").send_keys("\\undefined")
+#        wd.find_element_by_name("pass").click()
+#        wd.find_element_by_name("pass").send_keys("\\undefined")
 
     def ensure_login(self, username, password):
         if self.is_logged_in():
