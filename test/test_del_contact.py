@@ -1,4 +1,6 @@
+import time
 from model.contact import Contact
+
 
 def test_delete_first_contact(app):
     app.open_home_page()
@@ -8,6 +10,7 @@ def test_delete_first_contact(app):
     old_list = app.contact.get_contacts_list()
     app.contact.delete_first_contact()
     app.open_home_page()
+    time.sleep(10)
     new_list=app.contact.get_contacts_list()
     assert len(old_list)-1 == len(new_list)
     old_list[0:1]=[]

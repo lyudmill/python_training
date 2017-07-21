@@ -1,0 +1,56 @@
+C:\Devel\python_training\env\Scripts\python.exe "C:\Program Files\JetBrains\PyCharm Community Edition 2017.1.4\helpers\pydev\pydevd.py" --multiproc --qt-support --client 127.0.0.1 --port 51490 --file "C:\Program Files\JetBrains\PyCharm Community Edition 2017.1.4\helpers\pycharm\_jb_pytest_runner.py" --path C:/Devel/python_training/test/test_del_contact.py
+Testing started at 16:37 ...
+pydev debugger: process 11896 is connecting
+
+Connected to pydev debugger (build 171.4694.38)
+Launching py.test with arguments C:/Devel/python_training/test/test_del_contact.py in C:\Devel\python_training\test
+============================= test session starts =============================
+platform win32 -- Python 3.6.1, pytest-3.1.2, py-1.4.34, pluggy-0.4.0
+rootdir: C:\Devel\python_training\test, inifile:
+collected 1 items
+test_del_contact.py FXXX lineno: 14, opcode: 0
+
+test_del_contact.py:2 (test_delete_first_contact)
+app = <fixture.application.Application object at 0x042E4710>
+
+    def test_delete_first_contact(app):
+        app.open_home_page()
+        if app.contact.count() == 0:
+            app.contact.open_contact_page()
+            app.contact.create(Contact())
+        old_list = app.contact.get_contacts_list()
+        app.contact.delete_first_contact()
+        app.open_home_page()
+        new_list=app.contact.get_contacts_list()
+        assert len(old_list)-1 == len(new_list)
+        old_list[0:1]=[]
+>       assert sorted(old_list, key=Contact.id_or_max) == sorted(new_list, key=Contact.id_or_max)
+E       SystemError: unknown opcode
+
+test_del_contact.py:14: SystemError
+
+
+================================== FAILURES ===================================
+__________________________ test_delete_first_contact __________________________
+
+app = <fixture.application.Application object at 0x042E4710>
+
+    def test_delete_first_contact(app):
+        app.open_home_page()
+        if app.contact.count() == 0:
+            app.contact.open_contact_page()
+            app.contact.create(Contact())
+        old_list = app.contact.get_contacts_list()
+        app.contact.delete_first_contact()
+        app.open_home_page()
+        new_list=app.contact.get_contacts_list()
+        assert len(old_list)-1 == len(new_list)
+        old_list[0:1]=[]
+>       assert sorted(old_list, key=Contact.id_or_max) == sorted(new_list, key=Contact.id_or_max)
+E       SystemError: unknown opcode
+
+test_del_contact.py:14: SystemError
+---------------------------- Captured stderr call -----------------------------
+XXX lineno: 14, opcode: 0
+========================= 1 failed in 111.24 seconds ==========================
+Process finished with exit code 0
