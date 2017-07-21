@@ -2,6 +2,8 @@ from model.contact import Contact
 
 
 class ContactHelper:
+    contact_cash = None
+
     def __init__(self,app):
         self.app =  app
 
@@ -16,12 +18,14 @@ class ContactHelper:
         self.fill_contact_form(contact)
         wd.find_element_by_name("theform").click()
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+        self.contact_cash = None
 
     def modify_first_contact(self, contact):
         wd = self.app.wd
         wd.find_element_by_xpath("//table[@id='maintable']/tbody/tr[2]/td[8]/a/img").click()
         self.fill_contact_form(contact)
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        self.contact_cash = None
 
     def delete_first_contact(self):
         wd = self.app.wd
@@ -31,6 +35,7 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         #Confirm
         wd.switch_to_alert().accept()
+        self.contact_cash = None
 
     def count(self):
         wd = self.app.wd
@@ -65,13 +70,14 @@ class ContactHelper:
 
     def get_contacts_list(self):
         wd = self.app.wd
-        contact_list = []
-        for element in wd.find_elements_by_name("entry"):
-            cells = element.find_elements_by_tag_name("td")
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            last_name = cells[1].text
-            first_name = cells[2].text
-            emails=cells[3].text
-            phones=cells[4].text
-            contact_list.append(Contact(firstname=first_name, lastname=last_name, id=id, email=emails, workphone= phones))
-        return contact_list
+        if self.contact_cash is None:
+            self.contact_cash = []
+            for element in wd.find_elements_by_name("entry"):
+                cells = element.find_elements_by_tag_name("td")
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                last_name = cells[1].text
+                first_name = cells[2].text
+                emails=cells[3].text
+                phones=cells[4].text
+                self.contact_cash.append(Contact(firstname=first_name, lastname=last_name, id=id, email=emails, workphone= phones))
+        return list(self.contact_cash)
