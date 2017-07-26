@@ -92,9 +92,8 @@ class ContactHelper:
                 address = cells[3].text
                 emails=cells[4].text
                 phones=cells[5].text
-                homepage = cells[9].find_element_by_tag_name("a").get_attribute("href")
-                self.contact_cash.append(Contact(firstname=first_name, lastname=last_name, id=id, all_emails=emails, all_phones=phones,
-                            address=address, homepage=homepage))
+                homepage = cells[9].find_elements_by_name("img").get_attribute("title")
+                self.contact_cash.append(Contact(firstname=first_name, lastname=last_name, id=id, all_emails=emails, all_phones=phones, address = address))
         return list(self.contact_cash)
 
     def open_contact_to_edit_by_index(self, index):
@@ -141,18 +140,23 @@ class ContactHelper:
             res = re.search(pattern, text)
             if res is not None:
                 phone = res.group(1)
-            else:
-                phone = ""
-            return phone
+            else: phone  = ""
+            return None
 
         wd = self.app.wd
         self.open_contact_to_view_by_index(index)
-        text = wd.find_element_by_id("content").text
-        homephone = find_phone("H:(.*)", text)
-        mobilephone = find_phone("M:(.*)", text)
-        workphone = find_phone("W:(.*)", text)
-        secondaryphone = find_phone("P:(.*)", text)
+#        text= wd.find_element_by_id("content").text.split('\n\n')
+        content= wd.find_element_by_id("content")
+        text= content.text
+        phones=[]
+        phones.append(find_phone("H:(.*)", text))
+        phones.append(find_phone("M:(.*)", text))
+        phones.append(find_phone("W:(.*)", text))
+        phones.append(find_phone("P:(.*)", text))
+        phones = filter(lambda x: x!="", phones)
+
         fullname= wd.find_element_by_id("content").find_element_by_tag_name("b").text
+        
         emails = re.findall("(\w+@\w+(?:\.\w+)+)", text)
         return Contact(homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone, secondaryphone=secondaryphone)
