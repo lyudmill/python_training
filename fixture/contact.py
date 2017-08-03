@@ -92,7 +92,10 @@ class ContactHelper:
                 address = cells[3].text
                 emails=cells[4].text
                 phones=cells[5].text
-                homepage = cells[9].find_element_by_tag_name("a").get_attribute("href")
+                if len(cells[9].find_elements_by_tag_name("a")):
+                    homepage = cells[9].find_element_by_tag_name("a").get_attribute("href")
+                else:
+                    homepage = None
                 self.contact_cash.append(Contact(firstname=first_name, lastname=last_name, id=id, all_emails=emails, all_phones=phones,
                             address=address, homepage=homepage))
         return list(self.contact_cash)
@@ -120,6 +123,7 @@ class ContactHelper:
         title = wd.find_element_by_name("title").get_attribute("value")
         nickname = wd.find_element_by_name("nickname").get_attribute("value")
         company= wd.find_element_by_name("company").get_attribute("value")
+        address = wd.find_element_by_name("address").get_attribute("value")
         id = wd.find_element_by_name("id").get_attribute("value")
         homephone = wd.find_element_by_name("home").get_attribute("value")
         workphone = wd.find_element_by_name("work").get_attribute("value")
@@ -132,7 +136,7 @@ class ContactHelper:
         homepage= wd.find_element_by_name("homepage").get_attribute("value")
         address2= wd.find_element_by_name("address2").get_attribute("value")
         notes= wd.find_element_by_name("notes").get_attribute("value")
-        return Contact(firstname=firstname, lastname=lastname, midname=midname, nickname=nickname, id=id, homephone=homephone, workphone=workphone,
+        return Contact(firstname=firstname, lastname=lastname, midname=midname, nickname=nickname, address=address, id=id, homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone, secondaryphone=secondaryphone, title=title, company=company, email=email, email2=email2,
                        email3=email3, byear=byear, homepage=homepage,address2=address2,notes=notes)
 
