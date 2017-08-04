@@ -99,3 +99,4 @@ ENV/
 
 # mypy
 .mypy_cache/
+del_edit_contact.py
