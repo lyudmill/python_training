@@ -8,24 +8,27 @@ import os.path
 
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "n:f:", ["number of contacts", "file"])
+    opts, args = getopt.getopt(sys.argv[1:], "n:f:p:", ["number of contacts", "file", "prefix"])
 except getopt.GetoptError as err:
     print(err)
     sys.exit(2)
 
 n = 5
 f = "data/contacts.json"
+p = ""
 
 for o,a in opts:
     if o == "-n":
         n = int(a)
     elif o == "-f":
         f = a
+    elif o == "-p":
+        p = a
 
 
 def random_string(prefix, maxlen):
     symbols = string.ascii_letters + string.digits + " "
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
+    return p + prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 
 def random_phone():

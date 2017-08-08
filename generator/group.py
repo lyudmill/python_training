@@ -7,7 +7,7 @@ import getopt
 import sys
 
 try:
-    opts, args = getopt.getopt(sys.argv[1:], "n:f:", ["number of groups", "file"])
+    opts, args = getopt.getopt(sys.argv[1:], "n:f:p:", ["number of groups", "file"])
     print(opts)
     print(args)
 except getopt.GetoptError as err:
@@ -17,12 +17,15 @@ except getopt.GetoptError as err:
 
 n = 5
 f = "data/groups.json"
+p = ""
 
 for o,a in opts:
     if o == "-n":
         n = int(a)
     elif o == "-f":
         f = a
+    elif o == "-p":
+        p = a
 
 
 def random_string(prefix, maxlen):
@@ -30,7 +33,7 @@ def random_string(prefix, maxlen):
     return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
 
 testdata = [Group(name="", header="", footer="")] + [
-    Group(name=random_string("name", 10), header=random_string("header", 20), footer=random_string("footer", 20))
+    Group(name=random_string("%sname"%p, 10), header=random_string("%sheader"%p, 20), footer=random_string("%sfooter"%p, 20))
     for i in range(n)
 ]
 
