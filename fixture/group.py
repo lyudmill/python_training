@@ -15,6 +15,7 @@ class GroupHelper:
         # submit created group
         wd.find_element_by_name("submit").click()
         self.group_cash = None
+        self.return_to_groups_page()
 
     def open_groups_page(self):
         wd = self.app.wd
