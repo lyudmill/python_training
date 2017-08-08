@@ -3,7 +3,7 @@ from sys import maxsize
 class Group:
     def __init__(self, name=None, header=None, footer=None, gr_id=None):
         self.name = name
-        self.header =  header
+        self.header = header
         self.footer = footer
         self.id = gr_id
 
