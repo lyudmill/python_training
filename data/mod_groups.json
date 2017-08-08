@@ -1,0 +1,30 @@
+[
+  {
+    "py/object": "model.group.Group",
+    "footer": "",
+    "header": "",
+    "id": null,
+    "name": ""
+  },
+  {
+    "py/object": "model.group.Group",
+    "footer": "mod_footer",
+    "header": "mod_header*@je )9)K",
+    "id": null,
+    "name": "mod_name}+"
+  },
+  {
+    "py/object": "model.group.Group",
+    "footer": "mod_footerF ;9m",
+    "header": "mod_header   Q|sm% Fk\"Yi2  @v",
+    "id": null,
+    "name": "mod_nameQ&% s@"
+  },
+  {
+    "py/object": "model.group.Group",
+    "footer": "mod_footerJbN>~p0l@",
+    "header": "mod_header2:Usj.2",
+    "id": null,
+    "name": "mod_name$bMN"
+  }
+]

@@ -1,21 +1,9 @@
 from model.group import Group
 import random
-import pytest
-import string
 
 
-def random_string(prefix, maxlen):
-    symbols = string.ascii_letters + string.digits + " "
-    return prefix + "".join([random.choice(symbols) for i in range(random.randrange(maxlen))])
-
-testdata = [Group(name=random_string("mod_name", 7), header=random_string("mod_header", 15), footer=random_string("mod_footer", 12))
-            for i in range(3)
-]
-
-@pytest.mark.parametrize("group", testdata, ids=[repr(x) for x in testdata])
-
-
-def test_modify_group(app, group):
+def test_modify_group(app, json_mod_groups):
+    group = json_mod_groups
     if app.group.count() == 0:
         app.group.create(Group(name="New group"))
     old_groups = app.group.get_group_list()
