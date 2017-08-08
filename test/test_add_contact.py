@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-
 from model.contact import Contact
 
 
 def test_add_contact(app, json_contacts):
+    contact = json_contacts
     app.open_home_page()
     old_list = app.contact.get_contacts_list()
     app.contact.open_contact_page()
