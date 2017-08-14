@@ -32,18 +32,22 @@ class ContactHelper:
     def modify_contact_by_id(self, contact):
         wd = self.app.wd
         #Find checkbox with id
-        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % contact.id)
-        checkbox.click()
-        #Find row of this checkbox
-        row = checkbox.find_element_by_xpath("./../..")
-        #Click on "Edit" picture
-        row.find_elements_by_css_selector("td")[7].click()
+        self.open_contact_to_edit_by_id(contact)
         self.fill_contact_form(contact)
         #Click on "Update" button
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
         #Click on "Home page" link
         wd.find_element_by_xpath("//div[@class='msgbox']//a[.='home page']").click()
         self.contact_cash = None
+
+    def open_contact_to_edit_by_id(self, contact):
+        wd = self.app.wd
+        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % contact.id)
+        checkbox.click()
+        # Find row of this checkbox
+        row = checkbox.find_element_by_xpath("./../..")
+        # Click on "Edit" picture
+        row.find_elements_by_css_selector("td")[7].click()
 
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
@@ -137,9 +141,14 @@ class ContactHelper:
         cell =row.find_elements_by_tag_name("td")[6]
         cell.find_element_by_tag_name("a").click()
 
-    def get_contact_info_from_edit_page(self, index):
+    def get_contact_info_from_edit_page(self, index=None, contact=None):
         wd = self.app.wd
-        self.open_contact_to_edit_by_index(index)
+        if index is not None:
+            self.open_contact_to_edit_by_index(index)
+        elif contact is not None:
+            self.open_contact_to_edit_by_id(contact.id)
+        else:
+            return None
         firstname = wd.find_element_by_name("firstname").get_attribute("value")
         lastname = wd.find_element_by_name("lastname").get_attribute("value")
         midname = wd.find_element_by_name("middlename").get_attribute("value")
