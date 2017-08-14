@@ -17,8 +17,6 @@ class ContactHelper:
         wd = self.app.wd
         self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
-        #wd.find_element_by_name("theform").click()
-        #wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.contact_cash = None
 
     def modify_first_contact(self, contact):
@@ -31,13 +29,38 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
         self.contact_cash = None
 
+    def modify_contact_by_id(self, contact):
+        wd = self.app.wd
+        #Find checkbox with id
+        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % contact.id)
+        checkbox.click()
+        #Find row of this checkbox
+        row = checkbox.find_element_by_xpath("./../..")
+        #Click on "Edit" picture
+        row.find_elements_by_css_selector("td")[7].click()
+        self.fill_contact_form(contact)
+        #Click on "Update" button
+        wd.find_element_by_xpath("//div[@id='content']/form[1]/input[22]").click()
+        #Click on "Home page" link
+        wd.find_element_by_xpath("//div[@class='msgbox']//a[.='home page']").click()
+        self.contact_cash = None
+
     def delete_first_contact(self):
         self.delete_contact_by_index(0)
 
     def delete_contact_by_index(self, index):
         wd = self.app.wd
-        #select first contack
         wd.find_elements_by_name("selected[]")[index].click()
+        #click on "Delete"
+        wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
+        #Confirm
+        wd.switch_to_alert().accept()
+        wd.find_element_by_link_text("home").click()
+        self.contact_cash = None
+
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value=\"%s\"]" % id).click()
         #click on "Delete"
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         #Confirm
@@ -47,7 +70,6 @@ class ContactHelper:
 
     def count(self):
         wd = self.app.wd
-        #select first contack
         return len(wd.find_elements_by_name("selected[]"))
 
     def fill_contact_form(self, contact):
@@ -78,6 +100,7 @@ class ContactHelper:
             wd.find_element_by_name(field_name).click()
             wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
+
 
     def get_contacts_list(self):
         wd = self.app.wd
