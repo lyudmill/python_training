@@ -15,6 +15,7 @@ class ContactHelper:
 
     def create(self, contact):
         wd = self.app.wd
+        self.open_contact_page()
         self.fill_contact_form(contact)
         wd.find_element_by_name("submit").click()
         self.contact_cash = None
@@ -42,8 +43,8 @@ class ContactHelper:
 
     def open_contact_to_edit_by_id(self, contact):
         wd = self.app.wd
-        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % contact.id)
-        checkbox.click()
+#        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % contact.id)
+        checkbox = self.select_contact_by_id()
         # Find row of this checkbox
         row = checkbox.find_element_by_xpath("./../..")
         # Click on "Edit" picture
@@ -62,9 +63,15 @@ class ContactHelper:
         wd.find_element_by_link_text("home").click()
         self.contact_cash = None
 
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        checkbox = wd.find_element_by_css_selector("input[value=\"%s\"]" % id)
+        checkbox.click()
+        return checkbox
+
     def delete_contact_by_id(self, id):
         wd = self.app.wd
-        wd.find_element_by_css_selector("input[value=\"%s\"]" % id).click()
+        self.select_contact_by_id(id)
         #click on "Delete"
         wd.find_element_by_xpath("//div[@id='content']/form[2]/div[2]/input").click()
         #Confirm
@@ -108,7 +115,7 @@ class ContactHelper:
 
     def get_contacts_list(self):
         wd = self.app.wd
-        self.app.open_home_page()
+#        self.app.open_home_page()
         if self.contact_cash is None:
             self.contact_cash = []
             for element in wd.find_elements_by_name("entry"):
@@ -192,3 +199,20 @@ class ContactHelper:
         emails = re.findall("(\w+@\w+(?:\.\w+)+)", text)
         return Contact(homephone=homephone, workphone=workphone,
                        mobilephone=mobilephone, secondaryphone=secondaryphone)
+
+    def add_contact_to_group(self, contact, group):
+        wd = self.app.wd
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_name("to_group").find_element_by_css_selector("option[value=\"%s\"]" % group.id).click()
+        wd.find_element_by_name("add").click()
+        wd.find_element_by_partial_link_text("group page").click()
+
+    def select_group(self, group):
+        wd = self.app.wd
+        wd.find_element_by_name("group").find_element_by_css_selector("option[value=\"%s\"]" % group.id).click()
+
+    def delete_contact_from_group(self, contact):
+        wd = self.app.wd
+        self.select_contact_by_id(contact.id)
+        wd.find_element_by_name("remove").click()
+        wd.find_element_by_partial_link_text("group page").click()
