@@ -1,8 +1,7 @@
-pytest
+pytest==2.9.1
 pytest_bdd
-selenium
+C:\Devel\Tools\python\selenium-2.53.2
 pony
 pymysql
 mysql-connector-python-rf
 jsonpickle
-
